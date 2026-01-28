@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="ko" style="width: 100%; height: 100%;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사상체질 자가진단</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', sans-serif; }
+    </style>
+    <style>
+        :root {
+            --color-white: rgba(255, 255, 255, 1);
+            --color-black: rgba(0, 0, 0, 1);
+            --color-cream-50: rgba(252, 252, 249, 1);
+            --color-cream-100: rgba(255, 255, 253, 1);
+            --color-gray-200: rgba(245, 245, 245, 1);
+            --color-gray-300: rgba(167, 169, 169, 1);
+            --color-teal-300: rgba(50, 184, 198, 1);
+            --color-teal-500: rgba(33, 128, 141, 1);
+            --color-teal-600: rgba(29, 116, 128, 1);
+            --color-teal-700: rgba(26, 104, 115, 1);
+            --color-red-400: rgba(255, 84, 89, 1);
+            --color-red-500: rgba(192, 21, 47, 1);
+            --color-orange-400: rgba(230, 129, 97, 1);
+            --color-orange-500: rgba(168, 75, 47, 1);
+            --color-slate-900: rgba(19, 52, 59, 1);
+            --color-slate-500: rgba(98, 108, 113, 1);
+            
+            --color-background: var(--color-cream-50);
+            --color-text: var(--color-slate-900);
+            --color-primary: var(--color-teal-500);
+            --color-primary-hover: var(--color-teal-600);
+            --color-primary-active: var(--color-teal-700);
+            --color-border: rgba(33, 128, 141, 0.2);
+            
+            --color-taeyangblue: #3B82F6;
+            --color-soyangred: #F59E0B;
+            --color-taeeumgreen: #10B981;
+            --color-soeumviolet: #8B5CF6;
+            
+            --space-8: 8px;
+            --space-16: 16px;
+            --space-24: 24px;
+            --space-32: 32px;
+            
+            --radius-base: 8px;
+            --radius-lg: 12px;
+            
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --duration-normal: 250ms;
+            --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+        html {
+            font-size: 14px;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.5;
+            color: #2F4F4F;
+            background-color: #FFFFFF;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: var(--space-16);
+        }
+
+        .main-wrapper {
+            background: #FFFFFF;
+            border-radius: var(--radius-lg);
+            box-shadow: none;
+            padding: var(--space-32);
+            animation: slideUp 0.5s var(--ease-standard);
+            border: none;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== 시작 화면 ===== */
+        .start-screen {
+            text-align: center;
+        }
+
+        .start-screen h1 {
+            font-size: 2.2rem;
+            margin-bottom: var(--space-16);
+            color: #2F4F4F;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .start-screen p {
+            font-size: 0.95rem;
+            color: #5F5F5F;
+            margin-bottom: var(--space-24);
+            line-height: 1.8;
+            font-weight: 400;
+        }
+
+        .start-screen .notice-box {
+            background: #F5F5F5;
+            border-left: 4px solid #2F4F4F;
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            margin-bottom: var(--space-32);
+            font-size: 0.9rem;
+            color: #2F4F4F;
+            line-height: 1.7;
+        }
+
+        .start-btn {
+            padding: var(--space-16) var(--space-40);
+            background: #2F4F4F;
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+            box-shadow: var(--shadow-md);
+        }
+
+        .start-btn:hover {
+            background: #1a3a3a;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .start-btn:active {
+            background: var(--color-dark-slate);
+            transform: translateY(0);
+        }
+
+        /* ===== 진단 화면 ===== */
+        .quiz-screen {
+            display: none;
+            animation: fadeIn 0.4s var(--ease-standard);
+        }
+
+        .quiz-screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--color-gray-200);
+            border-radius: 3px;
+            margin-bottom: var(--space-24);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--color-taeyangblue), var(--color-soyangred), var(--color-taeeumgreen), var(--color-soeumviolet));
+            transition: width 0.3s var(--ease-standard);
+        }
+
+        .question-number {
+            font-size: 0.8rem;
+            color: #5F5F5F;
+            margin-bottom: var(--space-8);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            color: #2F4F4F;
+            margin-bottom: var(--space-24);
+            font-weight: 700;
+            line-height: 1.7;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-16);
+            margin-bottom: var(--space-24);
+        }
+
+        .answer-btn {
+            padding: var(--space-16) var(--space-12);
+            background: #F0F0F0;
+            border: 2px solid #E0E0E0;
+            border-radius: var(--radius-base);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+            text-align: center;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2F4F4F;
+            font-weight: 500;
+        }
+
+        .answer-btn:hover {
+            background: #E5E5E5;
+            border-color: #2F4F4F;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer-btn.selected {
+            background: #2F4F4F;
+            border-color: #2F4F4F;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .button-group {
+            display: flex;
+            gap: var(--space-16);
+            justify-content: flex-end;
+        }
+
+        .next-btn, .prev-btn {
+            padding: var(--space-8) var(--space-24);
+            background: var(--color-dark-slate);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-base);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all var(--duration-normal) var(--ease-standard);
+            font-size: 0.95rem;
+        }
+
+        .next-btn:hover, .prev-btn:hover {
+            background: #1A3A3A;
+            transform: translateY(-1px);
+        }
+
+        .next-btn:disabled {
+            background: #E8E8E8;
+            color: #999999;
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .next-btn:disabled:hover {
+            background: #E8E8E8;
+            transform: none;
+        }
+
+        .prev-btn {
+            background: #A9A9A9;
+            color: var(--color-white);
+        }
+
+        .prev-btn:hover {
+            background: #909090;
+        }
+
+        /* ===== 결과 화면 ===== */
+        .result-screen {
+            display: none;
+            animation: slideUp 0.5s var(--ease-standard);
+            text-align: center;
+        }
+
+        .result-screen.active {
+            display: block;
+        }
+
+        .result-title {
+            font-size: 1.8rem;
+            margin: var(--space-24) 0;
+            color: #2F4F4F;
+            font-weight: 700;
+        }
+
+        .constitution-box {
+            padding: var(--space-32);
+            border-radius: var(--radius-lg);
+            margin: var(--space-32) 0;
+            color: #FFFFFF;
+            background: #2F4F4F;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .constitution-name {
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: var(--space-16);
+            letter-spacing: -0.5px;
+        }
+
+        .constitution-hangul {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            margin-bottom: var(--space-8);
+            font-weight: 400;
+        }
+
+        .score-display {
+            margin-top: var(--space-32);
+        }
+
+        .score-chart {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-16);
+            margin: var(--space-24) 0;
+        }
+
+        .score-item {
+            padding: var(--space-16);
+            background: #F5F5F5;
+            border: 1px solid #E0E0E0;
+            border-radius: var(--radius-base);
+            text-align: center;
+        }
+
+        .score-item.highest {
+            background: #2F4F4F;
+            color: #FFFFFF;
+            border-color: #2F4F4F;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-name {
+            font-weight: 600;
+            margin-bottom: var(--space-8);
+            font-size: 0.85rem;
+            color: #2F4F4F;
+        }
+
+        .score-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #3B82F6;
+        }
+
+        .score-item.highest .score-value {
+            color: #FFFFFF;
+        }
+
+        .characteristics {
+            background: #F9F9F9;
+            padding: var(--space-24);
+            border: 1px solid #E5E5E5;
+            border-radius: var(--radius-base);
+            margin: var(--space-24) 0;
+            text-align: left;
+        }
+
+        .characteristics h3 {
+            color: #2F4F4F;
+            margin-bottom: var(--space-16);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .char-item {
+            padding: var(--space-8) 0;
+            border-bottom: 1px solid #F0F0F0;
+            color: #2F4F4F;
+            font-size: 0.9rem;
+        }
+
+        .char-item:last-child {
+            border-bottom: none;
+        }
+
+        .char-label {
+            font-weight: 600;
+            color: var(--color-dark-slate);
+            margin-right: var(--space-8);
+        }
+
+        .notice-text {
+            background: #F5F5F5;
+            border-left: 4px solid #2F4F4F;
+            padding: var(--space-16);
+            border-radius: var(--radius-base);
+            margin: var(--space-24) 0;
+            font-size: 0.9rem;
+            color: #2F4F4F;
+            line-height: 1.7;
+        }
+
+        .appointment-btn {
+            padding: var(--space-16) var(--space-40);
+            background: var(--color-dark-slate);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-base);
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+            box-shadow: var(--shadow-md);
+            margin-right: var(--space-16);
+        }
+
+        .appointment-btn:hover {
+            background: #1A3A3A;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .restart-btn {
+            padding: var(--space-12) var(--space-32);
+            background: transparent;
+            color: var(--color-dark-slate);
+            border: 2px solid var(--color-dark-slate);
+            border-radius: var(--radius-base);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--duration-normal) var(--ease-standard);
+        }
+
+        .restart-btn:hover {
+            background: var(--color-light-gray);
+            transform: translateY(-1px);
+        }
+
+        .button-group-result {
+            display: flex;
+            gap: var(--space-16);
+            justify-content: center;
+            margin-top: var(--space-32);
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .main-wrapper {
+                padding: var(--space-24);
+            }
+
+            .start-screen h1 {
+                font-size: 2rem;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+
+            .answers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .constitution-box {
+                padding: var(--space-24);
+            }
+
+            .constitution-name {
+                font-size: 2rem;
+            }
+
+            .score-chart {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body style="width: 100%; height: 100%; margin: 0; padding: 0;">
+    <div class="container" style="width: 100%; height: 100%;">
+        <div class="main-wrapper" style="width: 100%; height: 100%; margin: 0; border-radius: 0; padding: 16px;">
+            <!-- 시작 화면 -->
+            <div class="start-screen" id="startScreen">
+                <h1>🧘 사상체질 자가진단</h1>
+                <p>정확한 진단 전, 나의 상태를 차별게 체크해보세요.<br>
+                순서도처럼 진행되며 최종 결론이 나옵니다.</p>
+                <div class="notice-box">
+                    💡 <strong>참고:</strong> 본 자가진단은 일반적인 사상체질 특성을 바탕으로 한 참고용 도구입니다. 정확한 체질 진단을 위해서는 한의원 방문하여 전문 한의사 진료를 받으시기를 권장합니다.
+                </div>
+                <button class="start-btn" onclick="startQuiz()">진단 시작하기</button>
+            </div>
+
+            <!-- 진단 화면 -->
+            <div class="quiz-screen" id="quizScreen">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+
+                <div class="answers-grid" id="answersGrid"></div>
+
+                <div class="button-group">
+                    <button class="prev-btn" onclick="previousQuestion()" id="prevBtn" style="display:none;">이전</button>
+                    <button class="next-btn" onclick="nextQuestion()" id="nextBtn" disabled>다음</button>
+                </div>
+            </div>
+
+            <!-- 결과 화면 -->
+            <div class="result-screen" id="resultScreen">
+                <div class="result-title">진단 완료! 🎉</div>
+
+                <div class="constitution-box" id="constitutionBox">
+                    <div class="constitution-name" id="constitutionName"></div>
+                    <div class="constitution-hangul" id="constitutionHangul"></div>
+                </div>
+
+                <div class="score-display">
+                    <h3 style="color: var(--color-dark-slate); margin-bottom: var(--space-16);">체질별 점수</h3>
+                    <div class="score-chart" id="scoreChart"></div>
+                </div>
+
+                <div class="characteristics" id="characteristicsBox"></div>
+
+                <div class="notice-text">
+                    ⚕️ <strong>정확한 진단을 위해</strong><br>
+                    본 자가진단 결과는 참고용입니다. 더 정확한 사상체질 진단과 맞춤 처방을 위해 한의원을 방문하여 전문 한의사와 상담하시기를 권장합니다.
+                </div>
+
+                <div class="button-group-result">
+                    <button class="appointment-btn" onclick="openAppointment()">☎️ 상담 예약하기</button>
+                    <button class="restart-btn" onclick="restartQuiz()">다시 진단하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 질문 데이터
+        const questions = [
+            {
+                id: 1,
+                text: "당신의 전체 체형은 어떤가요?",
+                answers: [
+                    { text: "상체 발달, 어깨 넓음", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 0 } },
+                    { text: "하체 발달, 엉덩이 둥함", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "상체가 더 발달", scores: { 태양인: 2, 소양인: 2, 태음인: 0, 소음인: 1 } },
+                    { text: "균형잡혀있음", scores: { 태양인: 1, 소양인: 2, 태음인: 1, 소음인: 2 } }
+                ]
+            },
+            {
+                id: 2,
+                text: "얼굴 모양은 어떤가요?",
+                answers: [
+                    { text: "사각턱, 이마 좋음", scores: { 태양인: 3, 소양인: 0, 태음인: 0, 소음인: 1 } },
+                    { text: "넓은 얼굴, 통통한 편", scores: { 태양인: 0, 소양인: 1, 태음인: 3, 소음인: 0 } },
+                    { text: "약간 길쭉한 얼굴", scores: { 태양인: 2, 소양인: 2, 태음인: 0, 소음인: 1 } },
+                    { text: "갸름한 얼굴", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 3,
+                text: "안색은 어떤가요?",
+                answers: [
+                    { text: "희고 맑음", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 0 } },
+                    { text: "붉은편, 열기 많음", scores: { 태양인: 0, 소양인: 3, 태음인: 0, 소음인: 0 } },
+                    { text: "약간 어두운편", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "창백한 편", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 4,
+                text: "온도에 민감한 정도는?",
+                answers: [
+                    { text: "따뜻한 것을 선호", scores: { 태양인: 0, 소양인: 0, 태음인: 2, 소음인: 3 } },
+                    { text: "찬 것을 선호", scores: { 태양인: 3, 소양인: 3, 태음인: 0, 소음인: 0 } },
+                    { text: "열이 많아 더위를 탐", scores: { 태양인: 2, 소양인: 3, 태음인: 0, 소음인: 0 } },
+                    { text: "추위에 약함", scores: { 태양인: 0, 소양인: 0, 태음인: 1, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 5,
+                text: "소화 기능은 어떤가요?",
+                answers: [
+                    { text: "소화 잘 됨", scores: { 태양인: 1, 소양인: 3, 태음인: 3, 소음인: 0 } },
+                    { text: "스트레스에 약해짐", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } },
+                    { text: "과식 후 부담스러움", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 1 } },
+                    { text: "보통", scores: { 태양인: 1, 소양인: 1, 태음인: 1, 소음인: 1 } }
+                ]
+            },
+            {
+                id: 6,
+                text: "배변 습관은 어떤가요?",
+                answers: [
+                    { text: "규칙적, 쾌변", scores: { 태양인: 1, 소양인: 3, 태음인: 2, 소음인: 0 } },
+                    { text: "변비가 있음", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "설사하기 쉬움", scores: { 태양인: 2, 소양인: 0, 태음인: 0, 소음인: 3 } },
+                    { text: "일정하지 않음", scores: { 태양인: 1, 소양인: 1, 태음인: 1, 소음인: 1 } }
+                ]
+            },
+            {
+                id: 7,
+                text: "성격 및 기질은?",
+                answers: [
+                    { text: "정의감 강함, 원칙적", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 0 } },
+                    { text: "사교적, 활동적", scores: { 태양인: 1, 소양인: 3, 태음인: 1, 소음인: 0 } },
+                    { text: "온화, 느긋한 편", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "예민, 신중함", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 8,
+                text: "활동성은 어떤가요?",
+                answers: [
+                    { text: "활동적, 에너지 많음", scores: { 태양인: 3, 소양인: 3, 태음인: 0, 소음인: 0 } },
+                    { text: "안정적, 차분한 편", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 2 } },
+                    { text: "일정 수준 유지", scores: { 태양인: 1, 소양인: 1, 태음인: 1, 소음인: 1 } },
+                    { text: "피로하기 쉬움", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 9,
+                text: "스트레스 반응은?",
+                answers: [
+                    { text: "화내기 쉬움", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 0 } },
+                    { text: "빨리 잊음", scores: { 태양인: 1, 소양인: 3, 태음인: 1, 소음인: 0 } },
+                    { text: "오래 앙금이 남음", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "불안감, 걱정함", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 10,
+                text: "땀 흘리는 정도는?",
+                answers: [
+                    { text: "땀이 별로 안 남", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 0 } },
+                    { text: "땀이 잘 남", scores: { 태양인: 1, 소양인: 3, 태음인: 2, 소음인: 0 } },
+                    { text: "가슴, 상체에 땀", scores: { 태양인: 0, 소양인: 3, 태음인: 0, 소음인: 1 } },
+                    { text: "약간 나는 편", scores: { 태양인: 0, 소양인: 0, 태음인: 1, 소음인: 2 } }
+                ]
+            },
+            {
+                id: 11,
+                text: "수면의 질은 어떤가요?",
+                answers: [
+                    { text: "깊게 잠, 잘 자는 편", scores: { 태양인: 1, 소양인: 1, 태음인: 3, 소음인: 0 } },
+                    { text: "얕은 잠, 자주 깸", scores: { 태양인: 1, 소양인: 1, 태음인: 0, 소음인: 3 } },
+                    { text: "적당함", scores: { 태양인: 1, 소양인: 1, 태음인: 1, 소음인: 1 } },
+                    { text: "아침 잠이 많음", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 0 } }
+                ]
+            },
+            {
+                id: 12,
+                text: "피부 상태는?",
+                answers: [
+                    { text: "밝고 맑음", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 1 } },
+                    { text: "기름기 있음", scores: { 태양인: 1, 소양인: 3, 태음인: 2, 소음인: 0 } },
+                    { text: "건조한 편", scores: { 태양인: 2, 소양인: 0, 태음인: 0, 소음인: 3 } },
+                    { text: "민감한 편", scores: { 태양인: 0, 소양인: 1, 태음인: 1, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 13,
+                text: "손발 상태는?",
+                answers: [
+                    { text: "따뜻하고 건조", scores: { 태양인: 3, 소양인: 2, 태음인: 0, 소음인: 0 } },
+                    { text: "찬 편", scores: { 태양인: 0, 소양인: 0, 태음인: 1, 소음인: 3 } },
+                    { text: "부으면서 무거움", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "보통", scores: { 태양인: 1, 소양인: 1, 태음인: 1, 소음인: 1 } }
+                ]
+            },
+            {
+                id: 14,
+                text: "사교성은 어떤가요?",
+                answers: [
+                    { text: "처음 만난 사람과도 금방 친해짐", scores: { 태양인: 1, 소양인: 3, 태음인: 1, 소음인: 0 } },
+                    { text: "사람 만나기 좋아함", scores: { 태양인: 2, 소양인: 3, 태음인: 0, 소음인: 0 } },
+                    { text: "편한 사람들과만 지냄", scores: { 태양인: 0, 소양인: 0, 태음인: 3, 소음인: 1 } },
+                    { text: "조용하고 내향적", scores: { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 3 } }
+                ]
+            },
+            {
+                id: 15,
+                text: "식욕은 어떤가요?",
+                answers: [
+                    { text: "적은 편", scores: { 태양인: 3, 소양인: 1, 태음인: 0, 소음인: 1 } },
+                    { text: "좋은 편", scores: { 태양인: 1, 소양인: 2, 태음인: 3, 소음인: 0 } },
+                    { text: "먹고 싶은 것이 자주 바뀜", scores: { 태양인: 1, 소양인: 2, 태음인: 1, 소음인: 1 } },
+                    { text: "불규칙함", scores: { 태양인: 0, 소양인: 0, 태음인: 1, 소음인: 3 } }
+                ]
+            }
+        ];
+
+        const constitutionInfo = {
+            태양인: {
+                hangul: "太陽人",
+                description: "폐가 크고 간이 작은 체질로, 신체 외부로 발산하는 기운이 강합니다.",
+                characteristics: [
+                    "체형: 상체 발달, 어깨 넓음, 가슴 펼쳐짐",
+                    "얼굴: 사각턱, 이마 좋음, 희고 맑은 안색",
+                    "성격: 정의감 강함, 원칙적, 시비지심(공공성 중시)",
+                    "약점: 하체 약함, 대장기능 약함, 손발 차가움 주의",
+                    "추천: 신선한 해산물, 채소 중심, 가볍고 담백한 음식"
+                ]
+            },
+            소양인: {
+                hangul: "少陽人",
+                description: "비가 크고 신이 작은 체질로, 상체에 열이 많고 하체가 냉한 편입니다.",
+                characteristics: [
+                    "체형: 상체 발달, 가슴 넓음, 하체 약함",
+                    "얼굴: 약간 긴 얼굴, 붉은 안색, 눈 밝음",
+                    "성격: 사교적, 활동적, 사양지심(규칙 중시)",
+                    "약점: 신장 약함, 설사하기 쉬움, 대사 빠름",
+                    "추천: 생선, 신선 채소, 냉한 성질의 음식 추천"
+                ]
+            },
+            태음인: {
+                hangul: "太陰人",
+                description: "간이 크고 폐가 작은 체질로, 소화기능이 좋고 체중이 늘기 쉽습니다.",
+                characteristics: [
+                    "체형: 하체 발달, 엉덩이 크고 통통함, 골격 큼",
+                    "얼굴: 넓은 얼굴, 통통한 편, 약간 어두운 안색",
+                    "성격: 온화하고 느긋함, 수오지심(의리 중시)",
+                    "장점: 소화 잘 됨, 기력 좋음, 묵직한 체격",
+                    "주의: 체중 관리, 고혈압/당뇨 주의, 과식 피하기"
+                ]
+            },
+            소음인: {
+                hangul: "少陰人",
+                description: "신이 크고 비가 작은 체질로, 소화기능이 약하고 예민한 편입니다.",
+                characteristics: [
+                    "체형: 하체 발달, 갸름한 얼굴, 마른 편",
+                    "얼굴: 갸름하고 유순한 인상, 창백한 안색",
+                    "성격: 예민하고 신중함, 측은지심(배려심 많음)",
+                    "약점: 소화 약함, 추위 탐, 피로하기 쉬움",
+                    "추천: 따뜻한 음식, 소화 잘 되는 음식, 소량 많은 식사"
+                ]
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = {};
+        let scores = { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 0 };
+
+        function startQuiz() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizScreen').classList.add('active');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('questionNumber').textContent = `질문 ${currentQuestion + 1} / ${questions.length}`;
+            document.getElementById('questionText').textContent = question.text;
+
+            const answersGrid = document.getElementById('answersGrid');
+            answersGrid.innerHTML = '';
+
+            question.answers.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'answer-btn';
+                btn.textContent = answer.text;
+                if (answers[currentQuestion] === index) {
+                    btn.classList.add('selected');
+                }
+                btn.onclick = () => selectAnswer(index);
+                answersGrid.appendChild(btn);
+            });
+
+            document.getElementById('nextBtn').disabled = answers[currentQuestion] === undefined;
+            document.getElementById('prevBtn').style.display = currentQuestion > 0 ? 'block' : 'none';
+
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('nextBtn').textContent = '결과 보기';
+            } else {
+                document.getElementById('nextBtn').textContent = '다음';
+            }
+        }
+
+        function selectAnswer(index) {
+            // 이전에 선택한 답변이 있으면 그 점수를 빼기
+            if (answers[currentQuestion] !== undefined) {
+                const question = questions[currentQuestion];
+                const previousAnswer = question.answers[answers[currentQuestion]];
+                Object.keys(scores).forEach(constitution => {
+                    scores[constitution] -= previousAnswer.scores[constitution];
+                });
+            }
+
+            // 새로운 답변 선택
+            answers[currentQuestion] = index;
+            const question = questions[currentQuestion];
+            const answer = question.answers[index];
+
+            // 새로운 점수 더하기
+            Object.keys(scores).forEach(constitution => {
+                scores[constitution] += answer.scores[constitution];
+            });
+
+            document.querySelectorAll('.answer-btn').forEach((btn, i) => {
+                if (i === index) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.classList.remove('selected');
+                }
+            });
+
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                // 현재 질문의 점수 차감
+                if (answers[currentQuestion] !== undefined) {
+                    const question = questions[currentQuestion];
+                    const answer = question.answers[answers[currentQuestion]];
+
+                    Object.keys(scores).forEach(constitution => {
+                        scores[constitution] -= answer.scores[constitution];
+                    });
+                }
+
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quizScreen').classList.remove('active');
+            document.getElementById('resultScreen').classList.add('active');
+
+            const maxScore = Math.max(...Object.values(scores));
+            const result = Object.keys(scores).find(key => scores[key] === maxScore);
+
+            const colors = {
+                태양인: '#3B82F6',
+                소양인: '#F59E0B',
+                태음인: '#10B981',
+                소음인: '#8B5CF6'
+            };
+
+            const box = document.getElementById('constitutionBox');
+            box.style.background = colors[result];
+
+            document.getElementById('constitutionName').textContent = result;
+            document.getElementById('constitutionHangul').textContent = constitutionInfo[result].hangul;
+
+            const scoreChart = document.getElementById('scoreChart');
+            scoreChart.innerHTML = '';
+
+            const constitutions = ['태양인', '소양인', '태음인', '소음인'];
+            constitutions.forEach(c => {
+                const item = document.createElement('div');
+                item.className = 'score-item';
+                if (c === result) {
+                    item.classList.add('highest');
+                }
+                item.innerHTML = `
+                    <div class="score-name">${c}</div>
+                    <div class="score-value">${scores[c]}</div>
+                `;
+                scoreChart.appendChild(item);
+            });
+
+            const characteristics = document.getElementById('characteristicsBox');
+            characteristics.innerHTML = `
+                <h3>${result}의 특징</h3>
+                <p style="margin-bottom: var(--space-16); color: var(--color-slate-500);">${constitutionInfo[result].description}</p>
+                ${constitutionInfo[result].characteristics.map(char => 
+                    `<div class="char-item"><span class="char-label">•</span>${char}</div>`
+                ).join('')}
+            `;
+        }
+
+        function openAppointment() {
+            // 여기에 상담 예약 연결 URL을 입력하세요
+            // 예: window.location.href = 'https://your-clinic.com/appointment';
+            // 또는 전화 연결: window.location.href = 'tel:010-1234-5678';
+            alert('상담 예약 페이지로 이동합니다.\n실제 운영 시 상담 예약 링크를 연결해주세요.');
+            // 아래 주석을 풀고 상담 예약 URL을 입력하세요
+            // window.location.href = 'https://your-clinic.com/appointment';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            answers = {};
+            scores = { 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 0 };
+
+            document.getElementById('resultScreen').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

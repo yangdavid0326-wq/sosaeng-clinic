@@ -1,0 +1,163 @@
+import React, { useState } from 'react';
+import { Baby, TrendingUp, AlertCircle, Scale, Users } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
+const GrowthSimulator = () => {
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState({
+    gender: 'boy',
+    age: '',
+    childHeight: '',
+    childWeight: '',
+    dadHeight: '',
+    momHeight: '',
+    constitution: '태음인'
+  });
+  const [result, setResult] = useState<any>(null);
+
+  // MPH 계산 공식 (유전적 예상 키)
+  const calculateMPH = () => {
+    const dad = parseFloat(data.dadHeight);
+    const mom = parseFloat(data.momHeight);
+    let mph = data.gender === 'boy' ? (dad + mom + 13) / 2 : (dad + mom - 13) / 2;
+    
+    // 환경 변수 (한약, 영양, 수면) 추가 시 시나리오
+    return {
+      base: mph,
+      max: mph + 5.5, // 최적 환경 시
+      min: mph - 5.5  // 관리 부실 시
+    };
+  };
+
+  const handleNext = () => {
+    if (step < 2) setStep(step + 1);
+    else {
+      const mphResult = calculateMPH();
+      setResult(mphResult);
+    }
+  };
+
+  // 시각적 그래프를 위한 데이터 생성
+  const chartData = result ? [
+    { name: '현재', height: parseFloat(data.childHeight) },
+    { name: '사춘기전', height: (parseFloat(data.childHeight) + result.base) / 2 },
+    { name: '최종예상', height: result.base },
+    { name: '최적관리', height: result.max },
+  ] : [];
+
+  if (result) {
+    return (
+      <div className="max-w-2xl mx-auto p-8 bg-white rounded-[2rem] shadow-sm border border-gray-50 animate-in zoom-in duration-500">
+        <div className="text-center mb-10">
+          <div className="bg-amber-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <TrendingUp className="text-amber-500 w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900">우리 아이 성장 분석 결과</h2>
+          <p className="text-gray-500 mt-2">유전적 요인과 체질적 특성을 고려한 예측입니다.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+          <div className="p-6 bg-gray-50 rounded-3xl text-center">
+            <span className="text-sm text-gray-400 block mb-1">유전적 예상 키(MPH)</span>
+            <span className="text-4xl font-black text-gray-900">{result.base}</span>
+            <span className="text-lg text-gray-400"> cm</span>
+          </div>
+          <div className="p-6 bg-blue-50 rounded-3xl text-center">
+            <span className="text-sm text-blue-400 block mb-1">최적 관리 시 목표</span>
+            <span className="text-4xl font-black text-blue-600">{result.max}</span>
+            <span className="text-lg text-blue-400"> cm</span>
+          </div>
+        </div>
+
+        {/* 성장 예측 그래프 */}
+        <div className="h-64 w-full mb-10">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+              <XAxis dataKey="name" axisLine={false} tickLine={false} />
+              <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
+              <Tooltip contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+              <Line type="monotone" dataKey="height" stroke="#3b82f6" strokeWidth={4} dot={{ r: 6 }} activeDot={{ r: 8 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        <div className="bg-amber-50 p-6 rounded-2xl mb-8">
+          <h4 className="flex items-center gap-2 font-bold text-amber-800 mb-3">
+            <AlertCircle className="w-5 h-5" /> {data.constitution} 어린이 주의사항
+          </h4>
+          <p className="text-amber-700 text-sm leading-relaxed">
+            {data.constitution === '태음인' && "흡수력이 좋아 비만 위험이 높습니다. 체중이 키 성장을 방해하지 않도록 체지방 관리가 필수적입니다."}
+            {data.constitution === '소양인' && "열이 상체로 쏠려 수면의 질이 떨어질 수 있습니다. 숙면을 방해하는 생활 습관 교정이 시급합니다."}
+            {data.constitution === '소음인' && "소화기 기능이 약해 영양 흡수가 원활하지 않을 수 있습니다. 비위를 보강하는 한약 처방이 도움될 수 있습니다."}
+          </p>
+        </div>
+
+        <button className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-all">
+          원장님께 성장판 초음파 예약하기
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-xl mx-auto p-10 bg-white rounded-[2.5rem] shadow-2xl shadow-gray-100 border border-gray-50">
+      <div className="flex justify-between mb-10">
+        {[0, 1, 2].map((i) => (
+          <div key={i} className={`h-1.5 w-[30%] rounded-full ${i <= step ? 'bg-blue-500' : 'bg-gray-100'}`} />
+        ))}
+      </div>
+
+      {step === 0 && (
+        <div className="animate-in slide-in-from-right-10 duration-500">
+          <Baby className="w-10 h-10 text-blue-500 mb-4" />
+          <h2 className="text-2xl font-bold mb-8">아이의 정보를 입력해 주세요</h2>
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <button onClick={() => setData({...data, gender: 'boy'})} className={`flex-1 py-4 rounded-2xl border ${data.gender === 'boy' ? 'border-blue-500 bg-blue-50 text-blue-700' : 'border-gray-100'}`}>남아</button>
+              <button onClick={() => setData({...data, gender: 'girl'})} className={`flex-1 py-4 rounded-2xl border ${data.gender === 'girl' ? 'border-pink-500 bg-pink-50 text-pink-700' : 'border-gray-100'}`}>여아</button>
+            </div>
+            <input type="number" placeholder="현재 나이 (세)" className="w-full p-4 bg-gray-50 rounded-2xl outline-none focus:ring-2 ring-blue-500" onChange={(e) => setData({...data, age: e.target.value})} />
+            <div className="flex gap-2">
+              <input type="number" placeholder="현재 키(cm)" className="flex-1 p-4 bg-gray-50 rounded-2xl outline-none" onChange={(e) => setData({...data, childHeight: e.target.value})} />
+              <input type="number" placeholder="현재 몸무게(kg)" className="flex-1 p-4 bg-gray-50 rounded-2xl outline-none" onChange={(e) => setData({...data, childWeight: e.target.value})} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {step === 1 && (
+        <div className="animate-in slide-in-from-right-10 duration-500">
+          <Users className="w-10 h-10 text-emerald-500 mb-4" />
+          <h2 className="text-2xl font-bold mb-8">부모님의 키를 알려주세요</h2>
+          <div className="space-y-4">
+            <input type="number" placeholder="아버지 키(cm)" className="w-full p-4 bg-gray-50 rounded-2xl outline-none" onChange={(e) => setData({...data, dadHeight: e.target.value})} />
+            <input type="number" placeholder="어머니 키(cm)" className="w-full p-4 bg-gray-50 rounded-2xl outline-none" onChange={(e) => setData({...data, momHeight: e.target.value})} />
+          </div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="animate-in slide-in-from-right-10 duration-500">
+          <Scale className="w-10 h-10 text-purple-500 mb-4" />
+          <h2 className="text-2xl font-bold mb-8">아이의 평소 체질은 어떤가요?</h2>
+          <div className="grid grid-cols-1 gap-3">
+            {['태음인 (잘 먹고 덩치가 큼)', '소양인 (열이 많고 급함)', '소음인 (적게 먹고 소화가 약함)'].map((type) => (
+              <button key={type} onClick={() => { setData({...data, constitution: type.split(' ')[0]}); handleNext(); }} className="p-5 bg-gray-50 rounded-2xl text-left hover:bg-gray-100 transition-colors">
+                {type}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step < 2 && (
+        <button onClick={handleNext} className="w-full mt-10 py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-100">
+          다음 단계로
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default GrowthSimulator;

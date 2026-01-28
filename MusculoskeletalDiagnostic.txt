@@ -1,0 +1,155 @@
+import React, { useState } from 'react';
+import { ChevronRight, ClipboardCheck, Activity, MapPin, Calendar, MousePointer2 } from 'lucide-react';
+
+const MusculoskeletalDiagnostic = () => {
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState({
+    part: '',
+    quality: '',
+    timing: '',
+    duration: '',
+    redFlag: ''
+  });
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [result, setResult] = useState<null | string>(null);
+
+  const steps = [
+    {
+      id: 'part',
+      title: "가장 불편한 부위는 어디인가요?",
+      options: ['어깨', '허리', '무릎', '목/거북목', '손목/발목'],
+      icon: <MapPin className="w-5 h-5" />
+    },
+    {
+      id: 'quality',
+      title: "통증의 양상은 어떤가요?",
+      options: ['날카롭게 찌르는 느낌', '묵직하고 뻐근함', '전기가 오듯 저릿함', '화끈거리는 열감'],
+      icon: <Activity className="w-5 h-5" />
+    },
+    {
+      id: 'timing',
+      title: "언제 가장 통증이 심해지나요?",
+      options: ['움직일 때만', '가만히 있어도', '밤에 자려고 누우면', '아침에 일어날 때'],
+      icon: <Calendar className="w-5 h-5" />
+    },
+    {
+      id: 'redFlag',
+      title: "다음 중 해당되는 증상이 있나요?",
+      options: ['힘이 빠지는 느낌', '관절이 부어오름', '감각이 무딤', '해당 없음'],
+      icon: <ClipboardCheck className="w-5 h-5" />
+    }
+  ];
+
+  const handleAnswer = (value: string) => {
+    const currentId = steps[step].id;
+    setAnswers({ ...answers, [currentId]: value });
+    if (step < steps.length - 1) {
+      setStep(step + 1);
+    } else {
+      handleFinalSubmit();
+    }
+  };
+
+  const handleFinalSubmit = async () => {
+    setIsAnalyzing(true);
+    // 실제 운영 시에는 이 데이터를 API(OpenRouter)로 보냅니다.
+    // 여기서는 로직의 흐름을 보여주기 위해 2초 후 결과를 띄웁니다.
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setResult("정밀 분석 완료");
+    }, 2000);
+  };
+
+  if (result) {
+    return (
+      <div className="max-w-2xl mx-auto p-8 bg-white rounded-3xl shadow-sm border border-gray-100 animate-in fade-in zoom-in duration-500">
+        <div className="text-center mb-8">
+          <div className="inline-block p-3 bg-blue-50 rounded-full mb-4">
+            <Activity className="w-8 h-8 text-blue-500" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">분석 결과: 정밀 진단 권고</h2>
+          <p className="text-gray-500">단순 염증을 넘어선 구조적 손상이 의심됩니다.</p>
+        </div>
+
+        <div className="space-y-6 mb-10">
+          <div className="bg-gray-50 p-6 rounded-2xl border-l-4 border-blue-500">
+            <h3 className="font-semibold text-lg mb-2">🔍 의심 소견</h3>
+            <p className="text-gray-700 leading-relaxed">
+              입력하신 {answers.part} 통증의 양상과 {answers.redFlag} 증상으로 보아, 단순 근육통이 아닌 **인대 또는 힘줄의 구조적 손상** 가능성이 있습니다. 
+              특히 {answers.timing}에 심해지는 통증은 전문적인 진찰이 필요합니다.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <span className="text-blue-600 font-bold text-sm block mb-1">Ultra-Sound</span>
+              <h4 className="font-bold mb-2">초음파 정밀 진단</h4>
+              <p className="text-xs text-gray-500">X-ray로 보이지 않는 힘줄과 인대의 움직임을 실시간으로 확인합니다.</p>
+            </div>
+            <div className="p-5 border border-gray-100 rounded-2xl bg-white shadow-sm hover:shadow-md transition-shadow">
+              <span className="text-emerald-600 font-bold text-sm block mb-1">Chuna Therapy</span>
+              <h4 className="font-bold mb-2">공간 척추 추나</h4>
+              <p className="text-xs text-gray-500">틀어진 정렬을 바로잡고 신경 압박을 해소하여 통증의 근본 원인을 해결합니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-3">
+          <button className="w-full py-4 bg-gray-900 text-white rounded-2xl font-bold hover:bg-black transition-all transform hover:-translate-y-1">
+            원장님께 정밀 진단 예약하기
+          </button>
+          <button onClick={() => {setResult(null); setStep(0);}} className="w-full py-4 text-gray-400 font-medium hover:text-gray-600 transition-colors">
+            다시 테스트하기
+          </button>
+        </div>
+        
+        <p className="text-center text-[10px] text-gray-300 mt-6">
+          * 본 결과는 진단 전 가이드이며, 정확한 상태는 미국 초음파 자격(RMSK)을 보유한 원장님의 진찰이 필요합니다.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-xl mx-auto p-10 bg-white rounded-[40px] shadow-2xl shadow-gray-100 border border-gray-50 overflow-hidden relative">
+      {/* Progress Bar */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gray-50">
+        <div 
+          className="h-full bg-blue-500 transition-all duration-500" 
+          style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+        />
+      </div>
+
+      {isAnalyzing ? (
+        <div className="py-20 text-center animate-pulse">
+          <Activity className="w-12 h-12 text-blue-400 mx-auto mb-4 animate-spin-slow" />
+          <h3 className="text-xl font-medium text-gray-400">통증 원인을 정밀 분석 중입니다...</h3>
+        </div>
+      ) : (
+        <div className="animate-in slide-in-from-right-10 duration-500">
+          <div className="flex items-center gap-2 mb-6 text-blue-500">
+            {steps[step].icon}
+            <span className="text-sm font-bold tracking-widest uppercase">Step {step + 1}</span>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 leading-tight">
+            {steps[step].title}
+          </h2>
+          <div className="space-y-3">
+            {steps[step].options.map((option) => (
+              <button
+                key={option}
+                onClick={() => handleAnswer(option)}
+                className="w-full group flex items-center justify-between p-5 bg-white border border-gray-100 rounded-2xl text-left hover:border-blue-500 hover:bg-blue-50 transition-all duration-200"
+              >
+                <span className="text-gray-700 font-medium group-hover:text-blue-700">{option}</span>
+                <ChevronRight className="w-5 h-5 text-gray-300 group-hover:text-blue-500 transition-transform group-hover:translate-x-1" />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MusculoskeletalDiagnostic;
