@@ -160,7 +160,7 @@ export async function POST(req: Request) {
                 });
 
                 console.log(`✅ ${config.name} API succeeded`);
-                const stream = OpenAIStream(response);
+                const stream = OpenAIStream(response as any);
                 return new StreamingTextResponse(stream);
 
             } catch (error: any) {
