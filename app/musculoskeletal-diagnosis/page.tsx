@@ -138,7 +138,7 @@ export default function MusculoskeletalDiagnosisPage() {
             }
             setAnswers({ ...answers, symptoms: currentSymptoms });
         } else {
-            setAnswers({ ...answers, [currentId]: value });
+            setAnswers({ ...answers, [currentId as keyof typeof answers]: value });
             if (step < steps.length - 1) {
                 setStep(step + 1);
             } else {

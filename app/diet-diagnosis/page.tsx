@@ -226,7 +226,7 @@ export default function DietDiagnosisPage() {
     const [screen, setScreen] = useState<'start' | 'quiz' | 'result'>('start');
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
-    const [scores, setScores] = useState({
+    const [scores, setScores] = useState<Record<DietType, number>>({
         "대사저하형": 0,
         "부종순환형": 0,
         "스트레스폭식형": 0,
@@ -325,7 +325,8 @@ export default function DietDiagnosisPage() {
     const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
     const scorePercentages: any = {};
     for (let type in scores) {
-        scorePercentages[type] = Math.round((scores[type as DietType] / totalScore) * 100);
+        const dietType = type as DietType;
+        scorePercentages[dietType] = Math.round((scores[dietType] / totalScore) * 100);
     }
 
     const maxType = Object.keys(scores).reduce((a, b) =>
@@ -389,8 +390,8 @@ export default function DietDiagnosisPage() {
                                             key={index}
                                             onClick={() => handleAnswerClick(index)}
                                             className={`w-full p-4 rounded-lg border-2 transition-all text-left ${selectedAnswers.includes(index)
-                                                    ? 'bg-primary border-primary text-white'
-                                                    : 'bg-white border-gray-200 text-foreground hover:bg-gray-50 hover:border-primary'
+                                                ? 'bg-primary border-primary text-white'
+                                                : 'bg-white border-gray-200 text-foreground hover:bg-gray-50 hover:border-primary'
                                                 }`}
                                         >
                                             {answer.text}
@@ -415,17 +416,17 @@ export default function DietDiagnosisPage() {
                             <div className="py-6 animate-fadeIn">
                                 {/* 결과 헤더 */}
                                 <div className="bg-gradient-to-br from-primary/5 to-primary/10 border-2 border-primary/20 p-10 rounded-xl mb-8 text-center">
-                                    <h2 className="text-4xl font-bold mb-3 text-foreground">{maxType}</h2>
+                                    <h2 className="text-4xl font-bold mb-3 text-foreground">{String(maxType)}</h2>
                                     <p className="text-lg text-muted-foreground mb-6">당신의 맞춤형 다이어트 유형</p>
 
                                     {/* 점수 분석 */}
                                     <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-primary/20">
-                                        {Object.keys(scorePercentages)
+                                        {(Object.keys(scorePercentages) as DietType[])
                                             .sort((a, b) => scorePercentages[b] - scorePercentages[a])
                                             .slice(0, 3)
                                             .map(type => (
-                                                <div key={type} className="text-center p-4 bg-white rounded-lg shadow-sm">
-                                                    <div className="text-sm text-muted-foreground mb-2">{type}</div>
+                                                <div key={String(type)} className="text-center p-4 bg-white rounded-lg shadow-sm">
+                                                    <div className="text-sm text-muted-foreground mb-2">{String(type)}</div>
                                                     <div className="text-3xl font-bold text-primary">{scorePercentages[type]}%</div>
                                                 </div>
                                             ))}
@@ -454,8 +455,8 @@ export default function DietDiagnosisPage() {
                                             <div
                                                 key={index}
                                                 className={`p-6 rounded-xl border-2 transition-all ${card.emphasized
-                                                        ? 'bg-primary/5 border-primary/40 shadow-md'
-                                                        : 'bg-white border-gray-200'
+                                                    ? 'bg-primary/5 border-primary/40 shadow-md'
+                                                    : 'bg-white border-gray-200'
                                                     }`}
                                             >
                                                 <div className="text-4xl mb-3">{card.icon}</div>

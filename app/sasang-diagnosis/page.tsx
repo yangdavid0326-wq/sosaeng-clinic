@@ -218,7 +218,7 @@ export default function SasangDiagnosisPage() {
     const [screen, setScreen] = useState<'start' | 'quiz' | 'result'>('start');
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: number }>({});
-    const [scores, setScores] = useState({ 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 0 });
+    const [scores, setScores] = useState<Record<Constitution, number>>({ 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 0 });
     const [hasAgreed, setHasAgreed] = useState(false);
 
     const startQuiz = () => {
@@ -384,7 +384,7 @@ export default function SasangDiagnosisPage() {
                             className="p-8 rounded-2xl mb-8 text-white shadow-lg"
                             style={{ backgroundColor: constitutionInfo[result].color }}
                         >
-                            <div className="text-4xl font-bold mb-2">{result}</div>
+                            <div className="text-4xl font-bold mb-2">{String(result)}</div>
                             <div className="text-lg opacity-95">{constitutionInfo[result].hangul}</div>
                         </div>
 
@@ -393,13 +393,13 @@ export default function SasangDiagnosisPage() {
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {Object.keys(scores).map((constitution) => (
                                     <div
-                                        key={constitution}
+                                        key={String(constitution)}
                                         className={`p-4 rounded-lg text-center ${constitution === result
                                             ? 'bg-primary text-white shadow-md scale-105'
                                             : 'bg-gray-100 border border-gray-200'
                                             }`}
                                     >
-                                        <div className="font-semibold text-sm mb-2">{constitution}</div>
+                                        <div className="font-semibold text-sm mb-2">{String(constitution)}</div>
                                         <div className="text-2xl font-bold">
                                             {scores[constitution as Constitution]}
                                         </div>
