@@ -19,7 +19,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         .from("health_columns")
         .select("title, meta_title, meta_description, thumbnail_url")
         .eq("slug", params.slug)
-        .eq("slug", params.slug)
         .single();
 
     if (!post) {
