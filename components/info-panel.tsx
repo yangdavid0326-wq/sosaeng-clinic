@@ -86,11 +86,11 @@ export function InfoPanel() {
                     <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
                             <span className="font-medium">평일</span>
-                            <span className="text-muted-foreground">09:30 - 18:00</span>
+                            <span className="text-muted-foreground">09:30 - 19:00</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-medium">토요일</span>
-                            <span className="text-muted-foreground">09:30 - 14:00</span>
+                            <span className="text-muted-foreground">09:30 - 13:00</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-medium">일요일</span>
@@ -117,13 +117,13 @@ export function InfoPanel() {
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-2 text-sm">
-                        <p className="font-medium">서울특별시 강남구 테헤란로 123</p>
+                        <p className="font-medium">전북 군산시 수송북로 7 k빌딩 4층 소생한의원(기업은행 4층)</p>
                         <p className="text-muted-foreground">
-                            지하철: 2호선 강남역 3번 출구 도보 5분<br />
-                            버스: 146, 360, 362번 강남역 하차
+                            버스: 원광대 한방병원 하차 도보 이동<br />
+                            건물 내 주차 가능(대형 SUV 주의)
                         </p>
                         <p className="text-muted-foreground">
-                            문의: 02-1234-5678
+                            문의: 063-467-7510
                         </p>
                     </div>
                 </CardContent>

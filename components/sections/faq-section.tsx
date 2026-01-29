@@ -148,7 +148,7 @@ export function FAQSection() {
                 <div className="mt-16 p-8 bg-gray-50 rounded-3xl border border-dashed border-gray-200 text-center">
                     <p className="text-gray-500 mb-4">원하시는 답변을 찾지 못하셨나요?</p>
                     <a
-                        href="tel:02-1234-5678"
+                        href="tel:063-467-7510"
                         className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-xl font-bold text-gray-700 hover:shadow-md transition-all"
                     >
                         <HelpCircle className="h-5 w-5 text-primary" />
