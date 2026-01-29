@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MobileHeader } from "@/components/layout/mobile-header";
 import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
 import Link from "next/link";
-import { PrivacyConsent } from "@/components/ui/privacy-consent";
+
 
 // 질문 데이터
 const questions = [
@@ -219,13 +219,9 @@ export default function SasangDiagnosisPage() {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answers, setAnswers] = useState<{ [key: number]: number }>({});
     const [scores, setScores] = useState<Record<Constitution, number>>({ 태양인: 0, 소양인: 0, 태음인: 0, 소음인: 0 });
-    const [hasAgreed, setHasAgreed] = useState(false);
+
 
     const startQuiz = () => {
-        if (!hasAgreed) {
-            alert("개인정보 수집 및 이용에 동의해주셔야 진단이 가능합니다.");
-            return;
-        }
         setScreen('quiz');
         setCurrentQuestion(0);
         setAnswers({});
@@ -308,13 +304,7 @@ export default function SasangDiagnosisPage() {
                             </p>
                         </div>
 
-                        <div className="max-w-sm mx-auto mb-8 text-left">
-                            <PrivacyConsent
-                                checked={hasAgreed}
-                                onChange={setHasAgreed}
-                                id="sasang-privacy"
-                            />
-                        </div>
+
                         <button
                             onClick={startQuiz}
                             className="px-8 py-4 bg-primary hover:bg-primary/90 text-white rounded-lg font-semibold text-lg transition-all shadow-md hover:shadow-lg"

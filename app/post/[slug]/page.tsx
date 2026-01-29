@@ -19,7 +19,28 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         .from("health_columns")
         .select("title, meta_title, meta_description, thumbnail_url")
         .eq("slug", params.slug)
+        .eq("slug", params.slug)
         .single();
+
+    if (!post) {
+        const { data: postById } = await supabase
+            .from("health_columns")
+            .select("title, meta_title, meta_description, thumbnail_url")
+            .eq("id", params.slug)
+            .single();
+        if (postById) {
+            // Found by ID
+            return {
+                title: `${postById.meta_title || postById.title} | 소생한의원 건강칼럼`,
+                description: postById.meta_description,
+                openGraph: {
+                    title: postById.meta_title || postById.title,
+                    description: postById.meta_description,
+                    images: postById.thumbnail_url ? [postById.thumbnail_url] : [],
+                },
+            };
+        }
+    }
 
     if (!post) return { title: "포스트를 찾을 수 없습니다" };
 
@@ -36,11 +57,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ColumnDetailPage({ params }: Props) {
     const supabase = createClient();
-    const { data: post } = await supabase
+    let { data: post } = await supabase
         .from("health_columns")
         .select("*")
         .eq("slug", params.slug)
         .single();
+
+    if (!post) {
+        const { data: postById } = await supabase
+            .from("health_columns")
+            .select("*")
+            .eq("id", params.slug)
+            .single();
+        if (postById) {
+            post = postById;
+        }
+    }
 
     if (!post) {
         notFound();

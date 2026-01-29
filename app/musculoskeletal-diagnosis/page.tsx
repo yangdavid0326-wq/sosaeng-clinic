@@ -5,7 +5,7 @@ import { ChevronRight, Activity, MapPin, Calendar, ClipboardCheck, AlertCircle }
 import { MobileHeader } from "@/components/layout/mobile-header";
 import { BottomTabBar } from "@/components/layout/bottom-tab-bar";
 import { Button } from "@/components/ui/button";
-import { PrivacyConsent } from "@/components/ui/privacy-consent";
+
 import Link from 'next/link';
 
 // 부위별 특화 증상 정의
@@ -61,7 +61,7 @@ export default function MusculoskeletalDiagnosisPage() {
         timing: '',
         redFlag: ''
     });
-    const [hasAgreed, setHasAgreed] = useState(false);
+
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [result, setResult] = useState<null | {
         diagnosis: string;
@@ -307,7 +307,7 @@ export default function MusculoskeletalDiagnosisPage() {
             timing: '',
             redFlag: ''
         });
-        setHasAgreed(false);
+
     };
 
     const handleReservation = () => {
@@ -492,31 +492,20 @@ export default function MusculoskeletalDiagnosisPage() {
                                 })}
                             </div>
 
-                            {step === 0 && (
-                                <div className="mt-8 border-t pt-4">
-                                    <PrivacyConsent
-                                        checked={hasAgreed}
-                                        onChange={setHasAgreed}
-                                    />
-                                </div>
-                            )}
+
 
                             {/* 복수 선택 또는 첫 단계인 경우 버튼 표시 */}
                             {(isMultipleChoice || step === 0) && (
                                 <div className="mt-6">
                                     <Button
                                         onClick={step === 0 ? () => {
-                                            if (!hasAgreed) {
-                                                alert('개인정보 수집 및 이용에 동의해주셔야 진단이 가능합니다.');
-                                                return;
-                                            }
                                             if (answers.part) {
                                                 setStep(step + 1);
                                             } else {
                                                 alert('부위를 선택해주세요.');
                                             }
                                         } : handleNextStep}
-                                        disabled={(step === 0 && (!answers.part || !hasAgreed)) || (isMultipleChoice && answers.symptoms.length === 0)}
+                                        disabled={(step === 0 && !answers.part) || (isMultipleChoice && answers.symptoms.length === 0)}
                                         className="w-full py-6 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {step === 0 ? '진단 시작하기' : `다음 단계로 (${answers.symptoms.length}개 선택됨)`}

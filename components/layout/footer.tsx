@@ -12,8 +12,8 @@ export function Footer() {
                             전통 한의학과 현대 의료 기술을 접목한 한의원
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            대표자: [대표자명]<br />
-                            사업자등록번호: [사업자번호]
+                            대표자: 양경욱<br />
+                            사업자등록번호: 401-91-07825
                         </p>
                     </div>
 
@@ -21,13 +21,13 @@ export function Footer() {
                     <div>
                         <h3 className="font-bold text-lg mb-4">연락처</h3>
                         <p className="text-sm text-muted-foreground mb-2">
-                            전화: 02-1234-5678
+                            전화: 063-467-7510
                         </p>
                         <p className="text-sm text-muted-foreground mb-2">
-                            주소: 서울특별시 강남구 테헤란로 123
+                            주소: 전북 군산시 수송북로 7 k빌딩 4층 소생한의원(기업은행 4층)
                         </p>
                         <p className="text-sm text-muted-foreground">
-                            진료시간: 평일 09:30 - 18:00 (점심 12:30-14:00)
+                            진료시간: 평일 9:30~19:00 / 토요일 9:30~13:00 / 공휴일 근무 또는 휴무로 변동 / 일요일 휴무
                         </p>
                     </div>
 

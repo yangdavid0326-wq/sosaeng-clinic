@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, Loader2, ChevronDown, ChevronUp, X } from "lucide-react";
 import { replaceForbiddenWords } from "@/lib/content-filter";
-import { PrivacyConsent } from "@/components/ui/privacy-consent";
+
 import Image from "next/image";
 
 /**
@@ -17,7 +17,7 @@ export function CompactChatWidget() {
     const [isMinimized, setIsMinimized] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const [hasAgreed, setHasAgreed] = useState(false);
+
     const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
         api: '/api/chat',
     });
@@ -41,10 +41,7 @@ export function CompactChatWidget() {
     const handleFilteredSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!hasAgreed) {
-            alert('개인정보 수집 및 이용에 동의해주셔야 상담이 가능합니다.');
-            return;
-        }
+
 
         const filteredInput = replaceForbiddenWords(input);
 
@@ -184,12 +181,7 @@ export function CompactChatWidget() {
                                                 편하게 대화를 시작해보세요.
                                             </p>
 
-                                            <div className="mt-8 pt-4 text-left max-w-sm mx-auto">
-                                                <PrivacyConsent
-                                                    checked={hasAgreed}
-                                                    onChange={setHasAgreed}
-                                                />
-                                            </div>
+
                                         </div>
                                     </div>
                                 ) : (
