@@ -15,20 +15,22 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const supabase = createClient();
+    const decodedSlug = decodeURIComponent(params.slug);
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedSlug);
+
     const { data: post } = await supabase
         .from("health_columns")
         .select("title, meta_title, meta_description, thumbnail_url")
-        .eq("slug", params.slug)
+        .eq("slug", decodedSlug)
         .single();
 
-    if (!post) {
+    if (!post && isUuid) {
         const { data: postById } = await supabase
             .from("health_columns")
             .select("title, meta_title, meta_description, thumbnail_url")
-            .eq("id", params.slug)
+            .eq("id", decodedSlug)
             .single();
         if (postById) {
-            // Found by ID
             return {
                 title: `${postById.meta_title || postById.title} | 소생한의원 건강칼럼`,
                 description: postById.meta_description,
@@ -56,22 +58,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ColumnDetailPage({ params }: Props) {
     const supabase = createClient();
+    const decodedSlug = decodeURIComponent(params.slug);
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(decodedSlug);
+
     // 1. Try to find by slug first
-    let { data: post, error } = await supabase
+    let { data: post } = await supabase
         .from("health_columns")
         .select("*")
-        .eq("slug", params.slug)
+        .eq("slug", decodedSlug)
         .single();
 
     // 2. If not found by slug, and the param looks like a UUID, try to find by ID
-    // Check if params.slug is a valid UUID to avoid Postgres errors
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.slug);
-
     if (!post && isUuid) {
         const { data: postById } = await supabase
             .from("health_columns")
             .select("*")
-            .eq("id", params.slug)
+            .eq("id", decodedSlug)
             .single();
 
         if (postById) {
@@ -80,7 +82,7 @@ export default async function ColumnDetailPage({ params }: Props) {
     }
 
     if (!post) {
-        console.error(`Post not found for slug: ${params.slug} (isUuid: ${isUuid})`);
+        console.error(`Post not found for slug: ${decodedSlug} (orig: ${params.slug}, isUuid: ${isUuid})`);
         notFound();
     }
 
