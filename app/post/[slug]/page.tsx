@@ -56,24 +56,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ColumnDetailPage({ params }: Props) {
     const supabase = createClient();
-    let { data: post } = await supabase
+    // 1. Try to find by slug first
+    let { data: post, error } = await supabase
         .from("health_columns")
         .select("*")
         .eq("slug", params.slug)
         .single();
 
-    if (!post) {
+    // 2. If not found by slug, and the param looks like a UUID, try to find by ID
+    // Check if params.slug is a valid UUID to avoid Postgres errors
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.slug);
+
+    if (!post && isUuid) {
         const { data: postById } = await supabase
             .from("health_columns")
             .select("*")
             .eq("id", params.slug)
             .single();
+
         if (postById) {
             post = postById;
         }
     }
 
     if (!post) {
+        console.error(`Post not found for slug: ${params.slug} (isUuid: ${isUuid})`);
         notFound();
     }
 
