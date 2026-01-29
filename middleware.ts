@@ -15,7 +15,9 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith('/reviews') || pathname.startsWith('/admin')) {
         // IP 제한 체크 (관리자 경로만)
         if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-            const allowedIps = process.env.ALLOWED_ADMIN_IPS?.split(',') || [];
+            const allowedIps = (process.env.ALLOWED_ADMIN_IPS?.split(',') || [])
+                .map(ip => ip.trim())
+                .filter(ip => ip.length > 0);
             const clientIp = req.headers.get('x-forwarded-for') || req.ip;
 
             // allowedIps가 설정되어 있고, 클라이언트 IP가 포함되어 있지 않으면 차단
