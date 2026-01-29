@@ -80,9 +80,32 @@ export default function AdminLoginPage() {
                             />
                         </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="flex flex-col gap-2">
                         <Button type="submit" className="w-full h-12 text-lg" disabled={loading}>
                             {loading ? "로그인 중..." : "로그인"}
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            className="text-sm text-muted-foreground"
+                            onClick={async () => {
+                                if (!email) {
+                                    alert("이메일을 입력해 주세요.");
+                                    return;
+                                }
+                                setLoading(true);
+                                const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                                    redirectTo: `${window.location.origin}/auth/update-password`,
+                                });
+                                setLoading(false);
+                                if (error) {
+                                    alert("오류가 발생했습니다: " + error.message);
+                                } else {
+                                    alert("비밀번호 재설정 메일이 발송되었습니다. 이메일을 확인해 주세요.");
+                                }
+                            }}
+                        >
+                            비밀번호를 잊으셨나요?
                         </Button>
                     </CardFooter>
                 </form>
