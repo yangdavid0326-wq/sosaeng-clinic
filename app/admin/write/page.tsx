@@ -102,12 +102,16 @@ function WriteForm() {
 
         setUploading(true);
         try {
+            console.log('🔄 이미지 업로드 시작:', file.name);
+
             // 1. 이미지 압축 및 리사이징 (WebP)
             const compressedBlob = await processImage(file);
+            console.log('✅ 이미지 압축 완료:', compressedBlob.size, 'bytes');
 
             // 2. Supabase Storage 업로드
             const fileName = `${formData.slug || Date.now()}-${Math.random().toString(36).substring(2, 7)}.webp`;
             const filePath = `thumbnails/${fileName}`;
+            console.log('📤 Storage에 업로드 중:', filePath);
 
             const { data, error: uploadError } = await supabase.storage
                 .from('health-columns')
@@ -116,20 +120,33 @@ function WriteForm() {
                     upsert: true
                 });
 
-            if (uploadError) throw uploadError;
+            if (uploadError) {
+                console.error('❌ 업로드 실패:', uploadError);
+                throw uploadError;
+            }
+
+            console.log('✅ Storage 업로드 성공:', data);
 
             // 3. Public URL 가져오기
             const { data: { publicUrl } } = supabase.storage
                 .from('health-columns')
                 .getPublicUrl(filePath);
 
-            // 4. 최종 URL 반영 (로컬 프리뷰 해제)
+            console.log('🔗 Public URL 생성:', publicUrl);
+
+            // 4. Public URL 검증
+            if (!publicUrl || publicUrl.includes('undefined')) {
+                throw new Error('Public URL 생성 실패: URL이 유효하지 않습니다.');
+            }
+
+            // 5. 최종 URL 반영 (로컬 프리뷰 해제)
             setFormData(prev => ({ ...prev, thumbnail_url: publicUrl }));
             URL.revokeObjectURL(localPreviewUrl);
 
+            console.log('✅ 이미지 URL이 폼 데이터에 저장됨:', publicUrl);
             alert("이미지가 성공적으로 최적화되어 업로드되었습니다.");
         } catch (error: any) {
-            console.error("Upload error details:", error);
+            console.error("❌ Upload error details:", error);
             // 오류 발생 시 로컬 미리보기 유지할지 취소할지 결정 (여기선 유지)
             alert("이미지 업로드 중 오류가 발생했습니다. (SQL 정책이나 버킷 이름을 다시 확인해 주세요): " + error.message);
         } finally {
