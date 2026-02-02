@@ -108,8 +108,10 @@ function WriteForm() {
             const compressedBlob = await processImage(file);
             console.log('✅ 이미지 압축 완료:', compressedBlob.size, 'bytes');
 
-            // 2. Supabase Storage 업로드
-            const fileName = `${formData.slug || Date.now()}-${Math.random().toString(36).substring(2, 7)}.webp`;
+            // 2. Supabase Storage 업로드 (파일명에 한글 포함 방지)
+            const timestamp = Date.now();
+            const randomStr = Math.random().toString(36).substring(2, 9);
+            const fileName = `${timestamp}-${randomStr}.webp`;
             const filePath = `thumbnails/${fileName}`;
             console.log('📤 Storage에 업로드 중:', filePath);
 
