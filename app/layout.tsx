@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { getSchemaMarkup } from "@/lib/schema-markup";
+import VisitorTracker from "@/components/visitor-tracker";
 
 const pretendard = {
     variable: "--font-pretendard",
@@ -34,6 +35,7 @@ export default function RootLayout({
                 />
             </head>
             <body className="font-sans antialiased">
+                <VisitorTracker />
                 {children}
             </body>
         </html>

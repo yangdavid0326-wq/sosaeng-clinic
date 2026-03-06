@@ -5,13 +5,21 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Pencil, Trash2, Home, LogOut } from "lucide-react";
+import { Plus, Pencil, Trash2, Home, LogOut, Users, CalendarDays, Calendar, BarChart2 } from "lucide-react";
 import Link from "next/link";
 
+interface VisitorStats {
+    today: number;
+    thisWeek: number;
+    thisMonth: number;
+    total: number;
+}
 
 export default function AdminDashboard() {
     const [columns, setColumns] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState<VisitorStats>({ today: 0, thisWeek: 0, thisMonth: 0, total: 0 });
+    const [statsLoading, setStatsLoading] = useState(true);
     const router = useRouter();
     const supabase = createClient();
 
@@ -35,8 +43,53 @@ export default function AdminDashboard() {
             setLoading(false);
         }
 
+        async function fetchStats() {
+            const now = new Date();
+
+            // 오늘 시작 (한국 시간 기준 오늘 00:00)
+            const todayStart = new Date(now);
+            todayStart.setHours(0, 0, 0, 0);
+
+            // 이번 주 시작 (월요일 기준)
+            const weekStart = new Date(now);
+            const day = weekStart.getDay();
+            const diff = (day === 0 ? -6 : 1 - day);
+            weekStart.setDate(weekStart.getDate() + diff);
+            weekStart.setHours(0, 0, 0, 0);
+
+            // 이번 달 시작
+            const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+            const [todayRes, weekRes, monthRes, totalRes] = await Promise.all([
+                supabase
+                    .from("page_views")
+                    .select("id", { count: "exact", head: true })
+                    .gte("visited_at", todayStart.toISOString()),
+                supabase
+                    .from("page_views")
+                    .select("id", { count: "exact", head: true })
+                    .gte("visited_at", weekStart.toISOString()),
+                supabase
+                    .from("page_views")
+                    .select("id", { count: "exact", head: true })
+                    .gte("visited_at", monthStart.toISOString()),
+                supabase
+                    .from("page_views")
+                    .select("id", { count: "exact", head: true }),
+            ]);
+
+            setStats({
+                today: todayRes.count ?? 0,
+                thisWeek: weekRes.count ?? 0,
+                thisMonth: monthRes.count ?? 0,
+                total: totalRes.count ?? 0,
+            });
+            setStatsLoading(false);
+        }
+
         checkUser();
         fetchColumns();
+        fetchStats();
     }, [router, supabase]);
 
     const handleDelete = async (id: string) => {
@@ -59,9 +112,41 @@ export default function AdminDashboard() {
         router.push("/admin/login");
     };
 
+    const statCards = [
+        {
+            label: "오늘 방문자",
+            value: stats.today,
+            icon: <Users className="h-5 w-5 text-blue-500" />,
+            bg: "bg-blue-50",
+            text: "text-blue-600",
+        },
+        {
+            label: "이번 주 방문자",
+            value: stats.thisWeek,
+            icon: <CalendarDays className="h-5 w-5 text-emerald-500" />,
+            bg: "bg-emerald-50",
+            text: "text-emerald-600",
+        },
+        {
+            label: "이번 달 방문자",
+            value: stats.thisMonth,
+            icon: <Calendar className="h-5 w-5 text-violet-500" />,
+            bg: "bg-violet-50",
+            text: "text-violet-600",
+        },
+        {
+            label: "누적 방문자",
+            value: stats.total,
+            icon: <BarChart2 className="h-5 w-5 text-amber-500" />,
+            bg: "bg-amber-50",
+            text: "text-amber-600",
+        },
+    ];
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="max-w-6xl mx-auto space-y-6">
+                {/* 헤더 */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <h1 className="text-3xl font-bold text-gray-900">관리자 대시보드</h1>
@@ -76,6 +161,32 @@ export default function AdminDashboard() {
                     </Button>
                 </div>
 
+                {/* 방문자 통계 카드 */}
+                <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+                    {statCards.map((card) => (
+                        <Card key={card.label} className="overflow-hidden border-0 shadow-sm">
+                            <CardContent className="p-4">
+                                <div className="flex items-center gap-3">
+                                    <div className={`p-2 rounded-xl ${card.bg}`}>
+                                        {card.icon}
+                                    </div>
+                                    <div>
+                                        <p className="text-xs text-gray-400 font-medium">{card.label}</p>
+                                        {statsLoading ? (
+                                            <div className="h-7 w-12 bg-gray-100 rounded animate-pulse mt-1" />
+                                        ) : (
+                                            <p className={`text-2xl font-bold ${card.text}`}>
+                                                {card.value.toLocaleString()}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+
+                {/* 게시글 관리 */}
                 <div className="flex justify-between items-center">
                     <p className="text-muted-foreground">건강 칼럼 게시글을 관리합니다.</p>
                     <Link href="/admin/write">
