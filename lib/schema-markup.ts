@@ -10,7 +10,7 @@ export function getSchemaMarkup() {
         "name": "소생한의원",
         "description": "전북특별자치도 군산시 수송동에 위치한 소생한의원입니다. 미국 초음파사(RMSK) 자격을 보유한 양경욱 원장이 정밀한 진단과 따뜻한 치료를 제공합니다.",
         "url": "https://sosang-hospital.com",
-        "telephone": "063-463-7588",
+        "telephone": "063-467-7510",
         "logo": "https://sosang-hospital.com/images/gold_logo.png",
         "image": "https://sosang-hospital.com/images/lobby_main.jpg",
         "address": {

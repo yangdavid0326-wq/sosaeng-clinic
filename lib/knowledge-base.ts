@@ -124,6 +124,6 @@ export const CLINIC_INFO = {
         closed: "일요일, 공휴일"
     },
     address: "전북특별자치도 군산시 수송북로 7 (현대아파트 사거리 인근)",
-    phone: "063-463-7588",
+    phone: "063-467-7510",
     reservationUrl: "https://booking.naver.com/booking/13/bizes/918828"
 };

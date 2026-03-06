@@ -37,7 +37,7 @@ export default function LocationPage() {
                                 <Phone className="h-4 w-4 text-primary" />
                                 <p className="font-semibold">전화번호</p>
                             </div>
-                            <p className="text-muted-foreground">063-463-7588</p>
+                            <p className="text-muted-foreground">063-467-7510</p>
                         </div>
                         <div>
                             <div className="flex items-center gap-2 mb-1">

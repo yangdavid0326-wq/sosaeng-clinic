@@ -15,7 +15,7 @@ export function LocationSection() {
     };
 
     const handleCall = () => {
-        window.location.href = 'tel:063-463-7588';
+        window.location.href = 'tel:063-467-7510';
     };
 
     const handleOpenPlace = () => {
