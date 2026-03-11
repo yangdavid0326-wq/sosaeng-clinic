@@ -66,6 +66,7 @@ export function MobileHeader() {
                             src="/images/gold_logo.png"
                             alt="소생한의원 로고"
                             fill
+                            sizes="(max-width: 768px) 112px, 128px"
                             className="object-contain"
                             priority
                         />
@@ -99,6 +100,7 @@ export function MobileHeader() {
                                     src="/images/gold_logo.png"
                                     alt="소생한의원 로고"
                                     fill
+                                    sizes="128px"
                                     className="object-contain"
                                 />
                             </Link>
