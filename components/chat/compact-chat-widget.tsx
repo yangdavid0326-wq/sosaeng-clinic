@@ -96,8 +96,7 @@ export function CompactChatWidget() {
                                 <h3 className="text-xl font-black text-foreground tracking-tight">온라인 진료 도우미</h3>
                             </div>
                             <p className="text-sm text-muted-foreground/80 leading-relaxed font-medium">
-                                궁금하신 점을 물어보세요.<br />
-                                24시간 언제든지 답변해 드립니다.
+                                궁금하신 점을 물어보세요.
                             </p>
                         </div>
                     </div>

@@ -64,8 +64,8 @@ export default function LocationPage() {
                         {/* 지하철 */}
                         <div>
                             <div className="flex items-center gap-2 mb-2">
-                                <Train className="h-4 w-4 text-primary" />
-                                <p className="font-semibold">지하철</p>
+                                <MapPin className="h-4 w-4 text-primary" />
+                                <p className="font-semibold">주차장</p>
                             </div>
                             <ul className="text-sm text-muted-foreground space-y-1 ml-6">
                                 <li>• 주변 공영 주차장 및 건물 내 주차장 이용 가능</li>
@@ -92,9 +92,8 @@ export default function LocationPage() {
                                 <p className="font-semibold">자가용</p>
                             </div>
                             <div className="text-sm text-muted-foreground ml-6">
-                                <p className="mb-1">건물 지하 주차장 이용 가능</p>
-                                <p className="text-xs">
-                                    * 주차 공간이 협소하오니 대중교통 이용을 권장드립니다
+                                <p className="text-xs text-foreground">
+                                    주차공간이 협소하오니 주변 골목과 공영주차장을 이용해주세요
                                 </p>
                             </div>
                         </div>
@@ -110,11 +109,16 @@ export default function LocationPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                            <p className="text-sm text-muted-foreground text-center">
-                                지도 API를 연결하시면 여기에 표시됩니다<br />
-                                (카카오맵 또는 네이버 지도 API)
-                            </p>
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden border-0 bg-gray-50">
+                            <iframe
+                                src="https://map.naver.com/p/entry/place/13266589?c=15.00,0,0,0,dh"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                title="Sosaeng Map"
+                            ></iframe>
                         </div>
                     </CardContent>
                 </Card>

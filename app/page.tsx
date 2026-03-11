@@ -50,25 +50,24 @@ export default function Home() {
                                 <div className="pt-4 flex flex-col md:flex-row items-center md:items-end gap-3 md:gap-4">
                                     <span className="text-2xl md:text-3xl font-bold text-gray-800">원장</span>
                                     <span className="text-4xl md:text-5xl font-black text-medical-wood">양경욱</span>
-                                    <span className="text-lg md:text-xl text-gray-500 font-medium pb-1">입니다</span>
                                 </div>
                                 <div className="w-20 h-1 bg-medical-blue rounded-full mx-auto md:mx-0 mt-8"></div>
                             </div>
 
                             {/* 우측: 원장님 사진 */}
                             <div className="flex-1 flex justify-center md:justify-end order-1 md:order-2">
-                                <div className="relative w-64 h-64 md:w-[450px] md:h-[600px]">
+                                <div className="relative w-[300px] h-[200px] sm:w-[420px] sm:h-[280px] md:w-[550px] md:h-[366px] lg:w-[650px] lg:h-[433px] xl:w-[750px] xl:h-[500px]">
                                     {/* 사진 배경 장식 */}
                                     <div className="absolute -inset-4 bg-medical-blue/5 rounded-[3rem] -rotate-3 transition-transform duration-700 hover:rotate-0"></div>
                                     <div className="absolute -inset-4 border border-medical-wood/20 rounded-[3rem] rotate-3 transition-transform duration-700 hover:rotate-0"></div>
 
                                     <div className="relative h-full w-full rounded-[2.5rem] overflow-hidden shadow-2xl bg-white">
                                         <Image
-                                            src="/images/yang_main.jpg"
-                                            alt="양경욱 원장"
+                                            src="/images/clinic_interior.jpg"
+                                            alt="한의원 전경"
                                             fill
-                                            sizes="(max-width: 768px) 256px, 450px"
-                                            className="object-cover object-top hover:scale-105 transition-transform duration-1000"
+                                            sizes="(max-width: 768px) 400px, 600px"
+                                            className="object-cover hover:scale-105 transition-transform duration-1000"
                                             priority
                                         />
                                     </div>

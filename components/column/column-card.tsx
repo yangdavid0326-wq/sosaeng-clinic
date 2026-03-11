@@ -19,7 +19,7 @@ export function ColumnCard({ title, slug, category, thumbnailUrl, imageAlt, crea
             <div className="flex flex-col md:flex-row gap-6 p-4 rounded-3xl bg-white border border-gray-100 hover:shadow-xl transition-all duration-300">
                 <div className="relative w-full md:w-48 aspect-video md:aspect-square flex-shrink-0 overflow-hidden rounded-2xl">
                     <Image
-                        src={thumbnailUrl || "/images/placeholder.jpg"}
+                        src={thumbnailUrl || "/images/gold_logo.png"}
                         alt={imageAlt || title}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"

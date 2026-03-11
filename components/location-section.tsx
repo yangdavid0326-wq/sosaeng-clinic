@@ -42,7 +42,7 @@ export function LocationSection() {
             <div className="relative w-full aspect-[16/11] md:aspect-video rounded-2xl overflow-hidden border-0 shadow-card bg-gray-50">
 
                 {/* 네이버 지도 Iframe */}
-                <div className="absolute inset-0">
+                <div className="absolute top-0 left-0 bottom-0 right-0 md:right-[480px]">
                     <iframe
                         src="https://map.naver.com/p/entry/place/13266589?c=15.00,0,0,0,dh"
                         width="100%"
@@ -54,11 +54,11 @@ export function LocationSection() {
                     ></iframe>
                 </div>
 
-                {/* 왼쪽 가리개 - 완전 불투명 흰색 박스 */}
-                <div className="absolute top-0 left-0 bottom-0 w-[450px] md:w-[480px] bg-white z-40"></div>
+                {/* 오른쪽 가리개 - 완전 불투명 흰색 박스 (PC에서만 보임) */}
+                <div className="hidden md:block absolute top-0 right-0 bottom-0 w-[450px] md:w-[480px] bg-white z-40"></div>
 
-                {/* 브랜드 오버레이 카드 */}
-                <div className="absolute top-6 left-6 md:top-10 md:left-10 z-50 w-[340px] md:w-[400px]">
+                {/* 브랜드 오버레이 카드 (우측 배치, 모바일 숨김) */}
+                <div className="hidden md:block absolute top-6 right-6 md:top-10 md:right-10 z-50 w-[340px] md:w-[400px]">
                     <Card className="bg-white border border-[#B8860B]/30 shadow-2xl p-6 md:p-8 rounded-[2rem] shadow-[#B8860B]/20 transform transition-all duration-500 hover:scale-[1.02]">
                         <div className="flex items-center gap-3 mb-5 pb-5 border-b border-[#B8860B]/10">
                             <div className="relative w-14 h-14 bg-[#154334] rounded-xl flex items-center justify-center border border-[#B8860B]/30 overflow-hidden shadow-inner shrink-0 text-white font-bold text-2xl">
@@ -106,24 +106,7 @@ export function LocationSection() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white border-2 border-[#B8860B]/10 rounded-[2rem] p-6 shadow-sm">
-                    <h4 className="font-bold text-[#154334] text-sm mb-2 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#B8860B]" /> 주차 정보
-                    </h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed font-medium">건물 뒤편 전용 주차장 및 주변 공영 주차장 이용이 가능합니다.</p>
-                </div>
-                <div className="bg-[#154334]/5 border-2 border-[#154334]/10 rounded-[2rem] p-6 shadow-sm">
-                    <h4 className="font-bold text-[#154334] text-sm mb-2 flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-[#154334]" /> 대중교통
-                    </h4>
-                    <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                        <strong className="text-[#154334]">기업은행 사거리</strong> 정류장 하차<br />
-                        • 수송동전북은행방면 정류장<br />
-                        • 수송동현대아파트방면 정류장
-                    </p>
-                </div>
-            </div>
+
         </div>
     );
 }

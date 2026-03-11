@@ -36,6 +36,9 @@ export function Header() {
                     <Link href="/reviews" className="text-sm font-medium transition-colors hover:text-primary">
                         치료 후기
                     </Link>
+                    <Link href="/columns" className="text-sm font-medium transition-colors hover:text-primary">
+                        건강 칼럼
+                    </Link>
                     <Link href="/location" className="text-sm font-medium transition-colors hover:text-primary">
                         오시는 길
                     </Link>
@@ -73,6 +76,9 @@ export function Header() {
                         </Link>
                         <Link href="/reviews" className="text-sm font-medium transition-colors hover:text-primary">
                             치료 후기
+                        </Link>
+                        <Link href="/columns" className="text-sm font-medium transition-colors hover:text-primary">
+                            건강 칼럼
                         </Link>
                         <Link href="/location" className="text-sm font-medium transition-colors hover:text-primary">
                             오시는 길

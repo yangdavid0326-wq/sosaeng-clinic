@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation";
 
 export function MobileHeader() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isColumnOpen, setIsColumnOpen] = useState(false);
+    const [isDiagnosisOpen, setIsDiagnosisOpen] = useState(false);
     const [user, setUser] = useState<any>(null);
     const supabase = createClient();
     const router = useRouter();
@@ -92,77 +94,136 @@ export function MobileHeader() {
                 <SheetContent side="left" className="w-[280px]">
                     <SheetHeader>
                         <SheetTitle className="flex items-center justify-center py-2">
-                            <div className="relative w-32 h-10">
+                            <Link href="/" onClick={() => setIsMenuOpen(false)} className="relative w-32 h-10 block cursor-pointer">
                                 <Image
                                     src="/images/gold_logo.png"
                                     alt="소생한의원 로고"
                                     fill
                                     className="object-contain"
                                 />
-                            </div>
+                            </Link>
                         </SheetTitle>
                     </SheetHeader>
-                    <nav className="mt-8 flex flex-col space-y-4">
-                        <Link
-                            href="/"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="text-lg font-medium transition-colors hover:text-primary"
-                        >
-                            홈
-                        </Link>
-                        <Link
-                            href="/services"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="text-lg font-medium transition-colors hover:text-primary"
-                        >
-                            진료 안내
-                        </Link>
-                        <Link
-                            href="/doctors"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="text-lg font-medium transition-colors hover:text-primary"
-                        >
-                            의료진 소개
-                        </Link>
-                        <Link
-                            href="/reviews"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="text-lg font-medium transition-colors hover:text-primary"
-                        >
-                            치료 후기
-                        </Link>
-                        <Link
-                            href="/location"
-                            onClick={() => setIsMenuOpen(false)}
-                            className="text-lg font-medium transition-colors hover:text-primary"
-                        >
-                            오시는 길
-                        </Link>
-                        <div className="pt-4 border-t space-y-2">
+                    <div className="flex flex-col h-full overflow-y-auto pb-6">
+                        <nav className="mt-8 flex flex-col space-y-6 flex-1 px-2">
+                            <Link
+                                href="/doctors"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="text-xl font-medium transition-colors hover:text-primary"
+                            >
+                                의료진 소개
+                            </Link>
+                            <Link
+                                href="/services"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="text-xl font-medium transition-colors hover:text-primary"
+                            >
+                                진료 안내
+                            </Link>
+                            <Link
+                                href="/location"
+                                onClick={() => setIsMenuOpen(false)}
+                                className="text-xl font-medium transition-colors hover:text-primary"
+                            >
+                                오시는 길
+                            </Link>
+                            <div className="flex flex-col space-y-3">
+                                <button
+                                    onClick={() => setIsColumnOpen(!isColumnOpen)}
+                                    className="flex items-center justify-between text-xl font-medium transition-colors hover:text-primary text-left"
+                                >
+                                    건강 칼럼
+                                    <span className="text-sm text-gray-400">{isColumnOpen ? '▲' : '▼'}</span>
+                                </button>
+                                {isColumnOpen && (
+                                    <div className="flex flex-col pl-4 space-y-3 border-l-2 border-gray-100 mt-3">
+                                        <Link
+                                            href="/columns"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                        >
+                                            전체
+                                        </Link>
+                                        {["초음파 진단", "사상체질", "다이어트", "추나 요법", "교통사고", "한약"].map((category) => (
+                                            <Link
+                                                key={category}
+                                                href={`/columns?category=${encodeURIComponent(category)}`}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                            >
+                                                {category}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* 자가진단 메뉴 */}
+                            <div className="flex flex-col space-y-3">
+                                <button
+                                    onClick={() => setIsDiagnosisOpen(!isDiagnosisOpen)}
+                                    className="flex items-center justify-between text-xl font-medium transition-colors hover:text-primary text-left"
+                                >
+                                    자가진단
+                                    <span className="text-sm text-gray-400">{isDiagnosisOpen ? '▲' : '▼'}</span>
+                                </button>
+                                {isDiagnosisOpen && (
+                                    <div className="flex flex-col pl-4 space-y-3 border-l-2 border-gray-100 mt-3">
+                                        <Link
+                                            href="/sasang-diagnosis"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                        >
+                                            사상체질 자가진단
+                                        </Link>
+                                        <Link
+                                            href="/musculoskeletal-diagnosis"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                        >
+                                            근골격계 정밀 분석
+                                        </Link>
+                                        <Link
+                                            href="/diet-diagnosis"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                        >
+                                            다이어트 유형 진단
+                                        </Link>
+                                        <Link
+                                            href="/growth-simulator"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-base font-medium text-gray-500 transition-colors hover:text-primary"
+                                        >
+                                            소아 성장 예측
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
+                        </nav>
+
+                        {/* 하단 관리자 메뉴 */}
+                        <div className="pt-6 mt-12 flex justify-end space-x-4 border-t border-gray-100">
                             {user ? (
                                 <>
-                                    <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
-                                        <Button className="w-full bg-primary mb-2">관리자 페이지</Button>
+                                    <Link href="/admin" onClick={() => setIsMenuOpen(false)} className="text-xs text-gray-400 hover:text-gray-600">
+                                        관리자 페이지
                                     </Link>
-                                    <Button
-                                        variant="outline"
-                                        className="w-full text-destructive"
-                                        onClick={handleLogout}
-                                    >
-                                        <LogOut className="h-4 w-4 mr-2" />
+                                    <button onClick={handleLogout} className="text-xs text-gray-400 hover:text-gray-600">
                                         로그아웃
-                                    </Button>
+                                    </button>
                                 </>
                             ) : (
                                 <Link
                                     href="/admin/login"
                                     onClick={() => setIsMenuOpen(false)}
+                                    className="text-xs text-gray-400 hover:text-gray-600"
                                 >
-                                    <Button className="w-full">로그인</Button>
+                                    로그인
                                 </Link>
                             )}
                         </div>
-                    </nav>
+                    </div>
                 </SheetContent>
             </Sheet>
         </header>
